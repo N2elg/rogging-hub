@@ -27,12 +27,6 @@ const MAX_JSON_LEN: usize = 1024 * 1024;
 /// delivery. When combined with TCP delayed ACKs (typically 40–200 ms), this can
 /// compound into noticeable latency spikes.
 ///
-/// We disable Nagle via `TCP_NODELAY` (set in `server.rs` on the listening socket)
-/// so that each write from the log shipper is sent immediately as its own segment.
-/// This trades a small increase in packet count for **lowest possible latency** —
-/// critical for real-time log streaming where freshness matters more than bandwidth
-/// efficiency. The read side here benefits because data arrives sooner, reducing the
-/// time the IO reader spends blocked in `read_buf()` waiting for bytes.
 pub async fn run_io_reader(
     mut stream: TcpStream,
     tx: Sender<BytesMut>,

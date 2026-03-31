@@ -3,7 +3,7 @@ mod output;
 mod runtime;
 mod server;
 
-pub use log::LogConfig;
+pub use log::{AppenderConfig, ConsoleAppender, LogConfig, RollingFileAppender, RollPolicy};
 pub use output::{FileOutputConfig, OutputConfig, SseOutputConfig};
 pub use runtime::RuntimeConfig;
 pub use server::ServerConfig;
@@ -16,8 +16,6 @@ pub struct Config {
     #[serde(default)]
     pub server: ServerConfig,
     #[serde(default)]
-    pub log: LogConfig,
-    #[serde(default)]
     pub output: OutputConfig,
     #[serde(default)]
     pub runtime: RuntimeConfig,
@@ -27,7 +25,6 @@ impl Default for Config {
     fn default() -> Self {
         Self {
             server: ServerConfig::default(),
-            log: LogConfig::default(),
             output: OutputConfig::default(),
             runtime: RuntimeConfig::default(),
         }

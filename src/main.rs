@@ -1,13 +1,15 @@
 use RoggingHub::config;
+use RoggingHub::config::LogConfig;
 use RoggingHub::logging;
 use RoggingHub::runtime;
 use RoggingHub::server;
 use tracing::info;
 
 fn main() {
-    let cfg = config::Config::load();
+    let log_cfg = LogConfig::load();
+    let _log_guards = logging::init(&log_cfg);
 
-    let (_console_guard, _file_guard) = logging::init(&cfg.log);
+    let cfg = config::Config::load();
 
     info!(
         listen_addr = %cfg.server.listen_addr,

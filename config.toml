@@ -9,13 +9,6 @@ sock_recv_buf = 262144
 # Graceful shutdown timeout in seconds (drain in-flight connections)
 shutdown_timeout_secs = 30
 
-[log]
-# Levels: trace, debug, info, warn, error
-# Supports per-module filters: "info,io_handler=debug"
-level = "info"
-dir = "logs"
-file_prefix = "rogginghub"
-
 [output.file]
 enabled = true
 dir = "output"
