@@ -1,0 +1,24 @@
+# RoggingHub logging configuration
+# This file is loaded separately from config.toml.
+# Format is modeled after log4j2 / logback.
+
+# Global root level — fallback when an appender doesn't specify its own.
+root_level = "info"
+
+# Named appenders — add as many as you want (like log4j2 <Appenders>).
+[appenders.console]
+kind = "console"
+level = "info"
+ansi = true
+pattern = "{timestamp} [{level}] [{module}] {message}"
+
+[appenders.file]
+kind = "rolling_file"
+level = "debug"
+dir = "logs"
+prefix = "rogginghub"
+# Rolling policy: "daily" | "hourly" | "never"
+roll = "daily"
+# Auto-cleanup: keep at most N rotated files
+max_files = 30
+pattern = "{timestamp} [{level}] [{module}] {message}"
