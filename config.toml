@@ -1,0 +1,46 @@
+# RoggingHub configuration
+
+[server]
+listen_addr = "0.0.0.0:8080"
+max_connections = 20000
+backlog = 8192
+# Per-socket receive buffer size in bytes (256 KB)
+sock_recv_buf = 262144
+# Graceful shutdown timeout in seconds (drain in-flight connections)
+shutdown_timeout_secs = 30
+
+[log]
+# Levels: trace, debug, info, warn, error
+# Supports per-module filters: "info,io_handler=debug"
+level = "info"
+dir = "logs"
+file_prefix = "rogginghub"
+
+[output.file]
+enabled = true
+dir = "output"
+prefix = "rogginghub"
+# Write mode: "buffered", "mmap", or "direct"
+#   buffered — BufWriter (safe default)
+#   mmap     — memory-mapped writes, no syscall per record (recommended)
+#   direct   — bypass page cache (F_NOCACHE on macOS, O_DIRECT on Linux)
+write_mode = "mmap"
+# Pre-allocated file chunk size for mmap mode (64 MB)
+mmap_chunk_size = 67108864
+# Flush buffered writes every N milliseconds
+flush_interval_ms = 1000
+# Bounded channel capacity between parsers and file writer
+channel_capacity = 8192
+
+[output.sse]
+enabled = false
+# SSE HTTP server listen address (separate from TCP input port)
+listen_addr = "0.0.0.0:8081"
+# Broadcast channel capacity — slow clients drop events
+channel_capacity = 4096
+
+[runtime]
+# Number of threads for JSON parsing (default: number of CPU cores)
+parser_threads = 4
+# Number of threads for file output I/O
+output_threads = 2
